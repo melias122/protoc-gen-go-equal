@@ -1,0 +1,9 @@
+version: v1
+plugins:
+  - name: protoc-gen-go-equal
+    out: .
+    opt: paths=source_relative
+    path: ./protoc-gen-go-equal
+  - plugin: buf.build/protocolbuffers/go
+    out: .
+    opt: paths=source_relative
