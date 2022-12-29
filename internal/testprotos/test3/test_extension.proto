@@ -9,7 +9,7 @@ package goproto.proto.test3;
 import "google/protobuf/descriptor.proto";
 import "internal/testprotos/test3/test.proto";
 
-option go_package = "google.golang.org/protobuf/internal/testprotos/test3";
+option go_package = "github.com/melias122/protoc-gen-go-equal/internal/testprotos/test3";
 
 extend google.protobuf.MessageOptions {
   int32         optional_int32    = 1001;

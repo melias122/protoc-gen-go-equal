@@ -6,7 +6,7 @@ syntax = "proto2";
 
 package goproto.proto.test;
 
-option go_package = "google.golang.org/protobuf/internal/testprotos/test";
+option go_package = "github.com/melias122/protoc-gen-go-equal/internal/testprotos/test";
 
 message ImportMessage {
 }
