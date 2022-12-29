@@ -12,7 +12,6 @@ import (
 	testpb "github.com/melias122/protoc-gen-go-equal/internal/testprotos/test"  // "google.golang.org/protobuf/internal/testprotos/test"
 	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/testing/protopack"
 )
 
 func TestEqual(t *testing.T) {
@@ -513,21 +512,6 @@ func TestEqual(t *testing.T) {
 				"a": testpb.TestAllTypes_FOO,
 				"b": testpb.TestAllTypes_BAZ,
 			}},
-		},
-
-		// Unknown fields.
-		{
-			x: build(&testpb.TestAllTypes{}, unknown(protopack.Message{
-				protopack.Tag{100000, protopack.VarintType}, protopack.Varint(1),
-			}.Marshal())),
-			y: build(&testpb.TestAllTypes{}, unknown(protopack.Message{
-				protopack.Tag{100000, protopack.VarintType}, protopack.Varint(2),
-			}.Marshal())),
-		}, {
-			x: build(&testpb.TestAllTypes{}, unknown(protopack.Message{
-				protopack.Tag{100000, protopack.VarintType}, protopack.Varint(1),
-			}.Marshal())),
-			y: &testpb.TestAllTypes{},
 		},
 	}
 
