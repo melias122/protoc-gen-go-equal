@@ -6,32 +6,31 @@ protoc-gen-go-equal is a protobuf plugin that generates `Equal` methods
 `go get github.com/melias122/protoc-gen-go-equal@latest`
 
 ### Benchmark 
-`proto.Equal`
+`proto.Equal` vs generated `Equal`
 ```
-goos: linux
-goarch: amd64
-pkg: github.com/melias122/protoc-gen-go-equal
-cpu: AMD Ryzen 7 PRO 4750U with Radeon Graphics
-BenchmarkProtoEqualWithSmallEmpty-16                      1330669                876.6 ns/op	      88 B/op	       5 allocs/op
-BenchmarkProtoEqualWithIdenticalPtrEmpty-16             140363698	         8.319 ns/op	       0 B/op	       0 allocs/op
-BenchmarkProtoEqualWithLargeEmpty-16                  	   167653	          7033 ns/op	      88 B/op	       5 allocs/op
-BenchmarkProtoEqualWithDeeplyNestedEqual-16           	     6852	        175633 ns/op	    3520 B/op	     200 allocs/op
-BenchmarkProtoEqualWithDeeplyNestedDifferent-16       	    18258	         60185 ns/op	    2584 B/op	     122 allocs/op
-BenchmarkProtoEqualWithDeeplyNestedIdenticalPtr-16    	206724327	         5.299 ns/op	       0 B/op	       0 allocs/op
-```
+name                                  old time/op    new time/op    delta
+EqualWithSmallEmpty-16                   885ns ± 1%       3ns ±31%   -99.65%  (p=0.016 n=4+5)
+EqualWithIdenticalPtrEmpty-16           7.96ns ±37%    2.51ns ±33%   -68.44%  (p=0.008 n=5+5)
+EqualWithLargeEmpty-16                  8.10µs ±26%    0.48µs ±37%   -94.11%  (p=0.008 n=5+5)
+EqualWithDeeplyNestedEqual-16            184µs ±23%       7µs ± 2%   -95.93%  (p=0.016 n=5+4)
+EqualWithDeeplyNestedDifferent-16       58.8µs ± 4%     1.2µs ± 2%   -97.98%  (p=0.016 n=5+4)
+EqualWithDeeplyNestedIdenticalPtr-16    5.07ns ± 5%    2.27ns ± 1%   -55.12%  (p=0.016 n=5+4)
 
-generated `Equal`
-```
-goos: linux
-goarch: amd64
-pkg: github.com/melias122/protoc-gen-go-equal
-cpu: AMD Ryzen 7 PRO 4750U with Radeon Graphics
-BenchmarkEqualWithSmallEmpty-16                         301572816	         3.737 ns/op	       0 B/op	       0 allocs/op
-BenchmarkEqualWithIdenticalPtrEmpty-16                  334314547	         3.041 ns/op	       0 B/op	       0 allocs/op
-BenchmarkEqualWithLargeEmpty-16                       	  2811765	         383.8 ns/op	       0 B/op	       0 allocs/op
-BenchmarkEqualWithDeeplyNestedEqual-16                	   169820	          7399 ns/op	       0 B/op	       0 allocs/op
-BenchmarkEqualWithDeeplyNestedDifferent-16            	   957091	          1166 ns/op	       0 B/op	       0 allocs/op
-BenchmarkEqualWithDeeplyNestedIdenticalPtr-16         	595409228	         2.009 ns/op	       0 B/op	       0 allocs/op
+name                                  old alloc/op   new alloc/op   delta
+EqualWithSmallEmpty-16                   88.0B ± 0%      0.0B       -100.00%  (p=0.008 n=5+5)
+EqualWithIdenticalPtrEmpty-16            0.00B          0.00B           ~     (all equal)
+EqualWithLargeEmpty-16                   88.0B ± 0%      0.0B       -100.00%  (p=0.008 n=5+5)
+EqualWithDeeplyNestedEqual-16           3.52kB ± 0%    0.00kB       -100.00%  (p=0.008 n=5+5)
+EqualWithDeeplyNestedDifferent-16       2.58kB ± 0%    0.00kB       -100.00%  (p=0.008 n=5+5)
+EqualWithDeeplyNestedIdenticalPtr-16     0.00B          0.00B           ~     (all equal)
+
+name                                  old allocs/op  new allocs/op  delta
+EqualWithSmallEmpty-16                    5.00 ± 0%      0.00       -100.00%  (p=0.008 n=5+5)
+EqualWithIdenticalPtrEmpty-16             0.00           0.00           ~     (all equal)
+EqualWithLargeEmpty-16                    5.00 ± 0%      0.00       -100.00%  (p=0.008 n=5+5)
+EqualWithDeeplyNestedEqual-16              200 ± 0%         0       -100.00%  (p=0.008 n=5+5)
+EqualWithDeeplyNestedDifferent-16          122 ± 0%         0       -100.00%  (p=0.008 n=5+5)
+EqualWithDeeplyNestedIdenticalPtr-16      0.00           0.00           ~     (all equal)
 ```
 
 ### Limitations
