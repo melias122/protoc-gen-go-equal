@@ -8,7 +8,6 @@ import (
 	"math"
 	"testing"
 
-	"github.com/melias122/protoc-gen-go-equal/internal/pragma"                  // "google.golang.org/protobuf/internal/pragma"
 	test3pb "github.com/melias122/protoc-gen-go-equal/internal/testprotos/test" // "google.golang.org/protobuf/internal/testprotos/test3"
 	testpb "github.com/melias122/protoc-gen-go-equal/internal/testprotos/test"  // "google.golang.org/protobuf/internal/testprotos/test"
 	"google.golang.org/protobuf/encoding/prototext"
@@ -18,11 +17,6 @@ import (
 
 func TestEqual(t *testing.T) {
 	identicalPtrPb := &testpb.TestAllTypes{MapStringString: map[string]string{"a": "b", "c": "d"}}
-
-	type incomparableMessage struct {
-		*testpb.TestAllTypes
-		pragma.DoNotCompare
-	}
 
 	tests := []struct {
 		x, y *testpb.TestAllTypes
