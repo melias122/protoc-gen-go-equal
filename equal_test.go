@@ -515,21 +515,6 @@ func TestEqual(t *testing.T) {
 			}},
 		},
 
-		// Extensions.
-		{
-			x: build(&testpb.TestAllExtensions{},
-				extend(testpb.E_OptionalInt32, int32(1)),
-			),
-			y: build(&testpb.TestAllExtensions{},
-				extend(testpb.E_OptionalInt32, int32(2)),
-			),
-		}, {
-			x: &testpb.TestAllExtensions{},
-			y: build(&testpb.TestAllExtensions{},
-				extend(testpb.E_OptionalInt32, int32(2)),
-			),
-		},
-
 		// Unknown fields.
 		{
 			x: build(&testpb.TestAllTypes{}, unknown(protopack.Message{
