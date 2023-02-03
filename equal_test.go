@@ -7,12 +7,26 @@ package main_test
 import (
 	"math"
 	"testing"
+	"time"
 
 	test3pb "github.com/melias122/protoc-gen-go-equal/internal/testprotos/test" // "google.golang.org/protobuf/internal/testprotos/test3"
 	testpb "github.com/melias122/protoc-gen-go-equal/internal/testprotos/test"  // "google.golang.org/protobuf/internal/testprotos/test"
 	"google.golang.org/protobuf/encoding/prototext"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/anypb"
+	"google.golang.org/protobuf/types/known/durationpb"
+	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
+	"google.golang.org/protobuf/types/known/wrapperspb"
 )
+
+func mustAny(t *testing.T, msg proto.Message) *anypb.Any {
+	anymsg, err := anypb.New(msg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return anymsg
+}
 
 func TestEqual(t *testing.T) {
 	identicalPtrPb := &testpb.TestAllTypes{MapStringString: map[string]string{"a": "b", "c": "d"}}
@@ -512,6 +526,157 @@ func TestEqual(t *testing.T) {
 				"a": testpb.TestAllTypes_FOO,
 				"b": testpb.TestAllTypes_BAZ,
 			}},
+		},
+
+		// Known Types
+		{
+			x: &test3pb.TestAllTypes{
+				Any: mustAny(t, &testpb.TestAllTypes{OptionalInt32: proto.Int32(1)}),
+			},
+			y: &test3pb.TestAllTypes{
+				Any: mustAny(t, &testpb.TestAllTypes{OptionalInt32: proto.Int32(2)}),
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				Any: mustAny(t, &testpb.TestAllTypes{OptionalInt32: proto.Int32(1)}),
+			},
+			y: &test3pb.TestAllTypes{
+				Any: mustAny(t, &testpb.TestAllTypes{OptionalInt32: proto.Int32(1)}),
+			},
+			eq: true,
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				Duration: durationpb.New(time.Second),
+			},
+			y: &test3pb.TestAllTypes{
+				Duration: durationpb.New(time.Hour),
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				Duration: durationpb.New(time.Hour),
+			},
+			y: &test3pb.TestAllTypes{
+				Duration: durationpb.New(time.Hour),
+			},
+			eq: true,
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				Empty: &emptypb.Empty{},
+			},
+			y: &test3pb.TestAllTypes{
+				Empty: nil,
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				Empty: nil,
+			},
+			y: &test3pb.TestAllTypes{
+				Empty: nil,
+			},
+			eq: true,
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				Empty: &emptypb.Empty{},
+			},
+			y: &test3pb.TestAllTypes{
+				Empty: &emptypb.Empty{},
+			},
+			eq: true,
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				Timestamp: timestamppb.Now(),
+			},
+			y: &test3pb.TestAllTypes{
+				Timestamp: timestamppb.New(time.Now().Add(time.Hour)),
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				Timestamp: timestamppb.New(time.Time{}),
+			},
+			y: &test3pb.TestAllTypes{
+				Timestamp: timestamppb.New(time.Time{}),
+			},
+			eq: true,
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				WrappersBoolValue: wrapperspb.Bool(true),
+			},
+			y: &test3pb.TestAllTypes{
+				WrappersBoolValue: wrapperspb.Bool(false),
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				WrappersBytesValue: wrapperspb.Bytes([]byte("hello")),
+			},
+			y: &test3pb.TestAllTypes{
+				WrappersBytesValue: wrapperspb.Bytes([]byte("world")),
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				WrappersDoubleValue: wrapperspb.Double(.5),
+			},
+			y: &test3pb.TestAllTypes{
+				WrappersDoubleValue: wrapperspb.Double(.55),
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				WrappersFloatValue: wrapperspb.Float(.5),
+			},
+			y: &test3pb.TestAllTypes{
+				WrappersFloatValue: wrapperspb.Float(.55),
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				WrappersInt32Value: wrapperspb.Int32(5),
+			},
+			y: &test3pb.TestAllTypes{
+				WrappersInt32Value: wrapperspb.Int32(7),
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				WrappersInt64Value: wrapperspb.Int64(5),
+			},
+			y: &test3pb.TestAllTypes{
+				WrappersInt64Value: wrapperspb.Int64(7),
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				WrappersStringValue: wrapperspb.String("s1"),
+			},
+			y: &test3pb.TestAllTypes{
+				WrappersStringValue: wrapperspb.String("s2"),
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				WrappersUint32Value: wrapperspb.UInt32(5),
+			},
+			y: &test3pb.TestAllTypes{
+				WrappersUint32Value: wrapperspb.UInt32(7),
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				WrappersUint64Value: wrapperspb.UInt64(5),
+			},
+			y: &test3pb.TestAllTypes{
+				WrappersUint64Value: wrapperspb.UInt64(7),
+			},
 		},
 	}
 

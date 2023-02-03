@@ -8,6 +8,12 @@ package goproto.proto.test3;
 
 import "internal/testprotos/test3/test_import.proto";
 
+import "google/protobuf/any.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
 option go_package = "github.com/melias122/protoc-gen-go-equal/internal/testprotos/test3";
 
 message TestAllTypes {
@@ -118,6 +124,21 @@ message TestAllTypes {
     double        oneof_double         = 118;
     NestedEnum    oneof_enum           = 119;
   }
+
+  google.protobuf.Any       any       = 150;
+  google.protobuf.Duration  duration  = 151;
+  google.protobuf.Empty     empty     = 152;
+  google.protobuf.Timestamp timestamp = 153;
+
+  google.protobuf.BoolValue    wrappers_bool_value   = 200;
+  google.protobuf.BytesValue   wrappers_bytes_value  = 201;
+  google.protobuf.DoubleValue  wrappers_double_value = 202;
+  google.protobuf.FloatValue   wrappers_float_value  = 203;
+  google.protobuf.Int32Value   wrappers_int32_value  = 204;
+  google.protobuf.Int64Value   wrappers_int64_value  = 205;
+  google.protobuf.StringValue  wrappers_string_value = 206;
+  google.protobuf.UInt32Value  wrappers_uint32_value = 207;
+  google.protobuf.UInt64Value  wrappers_uint64_value = 208;
 }
 
 message ForeignMessage {

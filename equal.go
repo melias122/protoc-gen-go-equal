@@ -163,8 +163,15 @@ func genEqualField(g *protogen.GeneratedFile, f *protogen.Field, fieldName, ret,
 
 	case protoreflect.MessageKind, protoreflect.GroupKind:
 		switch f.Message.Location.SourceFile {
-		case "google/protobuf/any.proto",
-			"google/protobuf/api.proto",
+		case "google/protobuf/any.proto":
+			g.P(ret, `func() bool {`)
+			g.P(`if ` + x + ` == nil || ` + y + ` == nil {`)
+			g.P(`return ` + x + ` == nil && ` + y + ` == nil`)
+			g.P(`}`)
+			g.P(`return `+x+`.TypeUrl == `+y+`.TypeUrl && `, bytesPackage.Ident("Equal"), `(`+x+`.Value, `+y+`.Value)`)
+			g.P(`}()`, and)
+
+		case "google/protobuf/api.proto",
 			"google/protobuf/field_mask.proto",
 			"google/protobuf/source_context.proto",
 			"google/protobuf/struct.proto",
@@ -172,13 +179,23 @@ func genEqualField(g *protogen.GeneratedFile, f *protogen.Field, fieldName, ret,
 			g.P(ret, protoPackage.Ident("Equal"), `(`+x+`, `+y+`)`, and)
 
 		case "google/protobuf/duration.proto", "google/protobuf/timestamp.proto":
-			g.P(ret, x+`.Seconds == `+y+`.Seconds && `+x+`.Nanos == `+y+`.Nanos`, and)
+			g.P(ret, `func() bool {`)
+			g.P(`if ` + x + ` == nil || ` + y + ` == nil {`)
+			g.P(`return ` + x + ` == nil && ` + y + ` == nil`)
+			g.P(`}`)
+			g.P(`return ` + x + `.Seconds == ` + y + `.Seconds && ` + x + `.Nanos == ` + y + `.Nanos`)
+			g.P(`}()`, and)
 
 		case "google/protobuf/empty.proto":
 			g.P(ret, `(`+x+` == nil && `+y+` == nil || `+x+` != nil && `+y+` != nil)`, and)
 
 		case "google/protobuf/wrappers.proto":
-			g.P(ret, protoPackage.Ident("Equal"), `(`+x+`, `+y+`)`, and)
+			g.P(ret, `func() bool {`)
+			g.P(`if ` + x + ` == nil || ` + y + ` == nil {`)
+			g.P(`return ` + x + ` == nil && ` + y + ` == nil`)
+			g.P(`}`)
+			genEqualField(g, f.Message.Fields[0], fieldName+".Value", "return ", "", false)
+			g.P(`}()`, and)
 
 		default:
 			g.P(ret, x+`.Equal(`+y+`)`, and)

@@ -12,6 +12,12 @@ import public "internal/testprotos/test/test_public.proto";
 // import weak "internal/testprotos/test/weak1/test_weak.proto";
 // import weak "internal/testprotos/test/weak2/test_weak.proto";
 
+import "google/protobuf/any.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
 option go_package = "github.com/melias122/protoc-gen-go-equal/internal/testprotos/test";
 
 message TestAllTypes {
@@ -137,6 +143,21 @@ message TestAllTypes {
   oneof oneof_optional {
     uint32 oneof_optional_uint32 = 120;
   }
+
+  optional google.protobuf.Any       any       = 150;
+  optional google.protobuf.Duration  duration  = 151;
+  optional google.protobuf.Empty     empty     = 152;
+  optional google.protobuf.Timestamp timestamp = 153;
+
+  optional google.protobuf.BoolValue    wrappers_bool_value   = 200;
+  optional google.protobuf.BytesValue   wrappers_bytes_value  = 201;
+  optional google.protobuf.DoubleValue  wrappers_double_value = 202;
+  optional google.protobuf.FloatValue   wrappers_float_value  = 203;
+  optional google.protobuf.Int32Value   wrappers_int32_value  = 204;
+  optional google.protobuf.Int64Value   wrappers_int64_value  = 205;
+  optional google.protobuf.StringValue  wrappers_string_value = 206;
+  optional google.protobuf.UInt32Value  wrappers_uint32_value = 207;
+  optional google.protobuf.UInt64Value  wrappers_uint64_value = 208;
 }
 
 message TestDeprecatedMessage {
