@@ -1019,6 +1019,12 @@ func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
 		}() &&
 		x.GetOneofEnum() == y.GetOneofEnum() &&
 		x.GetOneofgroup().Equal(y.GetOneofgroup()) &&
+		func() bool {
+			if x.GetOneofWrappersStringValue() == nil || y.GetOneofWrappersStringValue() == nil {
+				return x.GetOneofWrappersStringValue() == nil && y.GetOneofWrappersStringValue() == nil
+			}
+			return x.GetOneofWrappersStringValue().Value == y.GetOneofWrappersStringValue().Value
+		}() &&
 		x.GetOneofOptionalUint32() == y.GetOneofOptionalUint32() &&
 		func() bool {
 			if x.Any == nil || y.Any == nil {
@@ -1077,7 +1083,7 @@ func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
 					if ox == nil || oy == nil {
 						return ox == nil && oy == nil
 					}
-					return x.WrappersBoolValue.Value == y.WrappersBoolValue.Value
+					return x.GetWrappersBoolValue().Value == y.GetWrappersBoolValue().Value
 				}()
 		}() &&
 		func() bool {
@@ -1090,7 +1096,7 @@ func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
 					if ox == nil || oy == nil {
 						return ox == nil && oy == nil
 					}
-					return bytes.Equal(x.WrappersBytesValue.Value, y.WrappersBytesValue.Value)
+					return bytes.Equal(x.GetWrappersBytesValue().Value, y.GetWrappersBytesValue().Value)
 				}()
 		}() &&
 		func() bool {
@@ -1104,10 +1110,10 @@ func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
 						return ox == nil && oy == nil
 					}
 					return func() bool {
-						if math.IsNaN(float64(x.WrappersDoubleValue.Value)) || math.IsNaN(float64(y.WrappersDoubleValue.Value)) {
-							return math.IsNaN(float64(x.WrappersDoubleValue.Value)) && math.IsNaN(float64(y.WrappersDoubleValue.Value))
+						if math.IsNaN(float64(x.GetWrappersDoubleValue().Value)) || math.IsNaN(float64(y.GetWrappersDoubleValue().Value)) {
+							return math.IsNaN(float64(x.GetWrappersDoubleValue().Value)) && math.IsNaN(float64(y.GetWrappersDoubleValue().Value))
 						}
-						return x.WrappersDoubleValue.Value == y.WrappersDoubleValue.Value
+						return x.GetWrappersDoubleValue().Value == y.GetWrappersDoubleValue().Value
 					}()
 				}()
 		}() &&
@@ -1122,10 +1128,10 @@ func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
 						return ox == nil && oy == nil
 					}
 					return func() bool {
-						if math.IsNaN(float64(x.WrappersFloatValue.Value)) || math.IsNaN(float64(y.WrappersFloatValue.Value)) {
-							return math.IsNaN(float64(x.WrappersFloatValue.Value)) && math.IsNaN(float64(y.WrappersFloatValue.Value))
+						if math.IsNaN(float64(x.GetWrappersFloatValue().Value)) || math.IsNaN(float64(y.GetWrappersFloatValue().Value)) {
+							return math.IsNaN(float64(x.GetWrappersFloatValue().Value)) && math.IsNaN(float64(y.GetWrappersFloatValue().Value))
 						}
-						return x.WrappersFloatValue.Value == y.WrappersFloatValue.Value
+						return x.GetWrappersFloatValue().Value == y.GetWrappersFloatValue().Value
 					}()
 				}()
 		}() &&
@@ -1139,7 +1145,7 @@ func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
 					if ox == nil || oy == nil {
 						return ox == nil && oy == nil
 					}
-					return x.WrappersInt32Value.Value == y.WrappersInt32Value.Value
+					return x.GetWrappersInt32Value().Value == y.GetWrappersInt32Value().Value
 				}()
 		}() &&
 		func() bool {
@@ -1152,7 +1158,7 @@ func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
 					if ox == nil || oy == nil {
 						return ox == nil && oy == nil
 					}
-					return x.WrappersInt64Value.Value == y.WrappersInt64Value.Value
+					return x.GetWrappersInt64Value().Value == y.GetWrappersInt64Value().Value
 				}()
 		}() &&
 		func() bool {
@@ -1165,7 +1171,7 @@ func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
 					if ox == nil || oy == nil {
 						return ox == nil && oy == nil
 					}
-					return x.WrappersStringValue.Value == y.WrappersStringValue.Value
+					return x.GetWrappersStringValue().Value == y.GetWrappersStringValue().Value
 				}()
 		}() &&
 		func() bool {
@@ -1178,7 +1184,7 @@ func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
 					if ox == nil || oy == nil {
 						return ox == nil && oy == nil
 					}
-					return x.WrappersUint32Value.Value == y.WrappersUint32Value.Value
+					return x.GetWrappersUint32Value().Value == y.GetWrappersUint32Value().Value
 				}()
 		}() &&
 		func() bool {
@@ -1191,7 +1197,7 @@ func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
 					if ox == nil || oy == nil {
 						return ox == nil && oy == nil
 					}
-					return x.WrappersUint64Value.Value == y.WrappersUint64Value.Value
+					return x.GetWrappersUint64Value().Value == y.GetWrappersUint64Value().Value
 				}()
 		}()
 }

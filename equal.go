@@ -194,7 +194,7 @@ func genEqualField(g *protogen.GeneratedFile, f *protogen.Field, fieldName, ret,
 			g.P(`if ` + x + ` == nil || ` + y + ` == nil {`)
 			g.P(`return ` + x + ` == nil && ` + y + ` == nil`)
 			g.P(`}`)
-			genEqualField(g, f.Message.Fields[0], fieldName+".Value", "return ", "", false)
+			genEqualField(g, f.Message.Fields[0], "Get"+fieldName+"().Value", "return ", "", false)
 			g.P(`}()`, and)
 
 		default:

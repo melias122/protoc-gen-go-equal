@@ -137,6 +137,8 @@ message TestAllTypes {
       optional int32 a = 1;
       optional int32 b = 2;
     }
+
+    google.protobuf.StringValue  oneof_wrappers_string_value = 122;
   }
 
   // A oneof with exactly one field.

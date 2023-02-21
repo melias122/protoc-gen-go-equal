@@ -528,6 +528,22 @@ func TestEqual(t *testing.T) {
 			}},
 		},
 
+		// Oneof
+		{
+			x: &test3pb.TestAllTypes{
+				OneofField: &test3pb.TestAllTypes_OneofUint32{
+					OneofUint32: 1,
+				},
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				OneofField: &test3pb.TestAllTypes_OneofWrappersStringValue{
+					OneofWrappersStringValue: wrapperspb.String("s"),
+				},
+			},
+		},
+
 		// Known Types
 		{
 			x: &test3pb.TestAllTypes{

@@ -123,6 +123,8 @@ message TestAllTypes {
     float         oneof_float          = 117;
     double        oneof_double         = 118;
     NestedEnum    oneof_enum           = 119;
+
+    google.protobuf.StringValue  oneof_wrappers_string_value = 120;
   }
 
   google.protobuf.Any       any       = 150;
