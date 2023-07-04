@@ -18,8 +18,8 @@ option go_package = "github.com/melias122/protoc-gen-go-equal/internal/testproto
 
 message TestAllTypes {
   message NestedMessage {
-    int32 a = 1;
-    TestAllTypes corecursive = 2;
+    optional int32 a = 1;
+    optional TestAllTypes corecursive = 2;
   }
 
   enum NestedEnum {

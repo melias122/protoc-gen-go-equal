@@ -2,11 +2,22 @@ package main
 
 import (
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/reflect/protoreflect"
 )
+
+var isLocalPackage = make(map[string]bool)
 
 func main() {
 	opts := protogen.Options{}
 	opts.Run(func(gen *protogen.Plugin) error {
+
+		for _, f := range gen.Files {
+			if !f.Generate {
+				continue
+			}
+			isLocalPackage[string(f.Desc.Package())] = true
+		}
+
 		for _, f := range gen.Files {
 			if !f.Generate {
 				continue
@@ -20,7 +31,8 @@ func main() {
 			g.P()
 			g.P(`package ` + f.GoPackageName)
 
-			genEqual(g, f.Messages)
+			proto3 := f.Desc.Syntax() == protoreflect.Proto3
+			genEqual(g, f.Messages, proto3)
 		}
 		return nil
 	})

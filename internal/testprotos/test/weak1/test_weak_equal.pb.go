@@ -4,11 +4,14 @@
 package weak1
 
 func (x *WeakImportMessage1) Equal(y *WeakImportMessage1) bool {
-	if x == nil || y == nil {
-		return x == nil && y == nil
-	}
 	if x == y {
 		return true
 	}
-	return x.A == y.A
+	if x == nil || y == nil {
+		return x == nil && y == nil
+	}
+	if p, q := x.A, y.A; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	return true
 }

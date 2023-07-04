@@ -4,11 +4,11 @@
 package test
 
 func (x *PublicImportMessage) Equal(y *PublicImportMessage) bool {
-	if x == nil || y == nil {
-		return x == nil && y == nil
-	}
 	if x == y {
 		return true
+	}
+	if x == nil || y == nil {
+		return x == nil && y == nil
 	}
 	return true
 }

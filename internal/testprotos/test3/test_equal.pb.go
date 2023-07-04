@@ -4,885 +4,614 @@
 package test3
 
 import (
-	bytes "bytes"
 	math "math"
 )
 
 func (x *TestAllTypes_NestedMessage) Equal(y *TestAllTypes_NestedMessage) bool {
-	if x == nil || y == nil {
-		return x == nil && y == nil
-	}
 	if x == y {
 		return true
 	}
-	return x.A == y.A &&
-		x.Corecursive.Equal(y.Corecursive)
+	if x == nil || y == nil {
+		return x == nil && y == nil
+	}
+	if p, q := x.A, y.A; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if !x.Corecursive.Equal(y.Corecursive) {
+		return false
+	}
+	return true
 }
 
 func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
-	if x == nil || y == nil {
-		return x == nil && y == nil
-	}
 	if x == y {
 		return true
 	}
-	return x.SingularInt32 == y.SingularInt32 &&
-		x.SingularInt64 == y.SingularInt64 &&
-		x.SingularUint32 == y.SingularUint32 &&
-		x.SingularUint64 == y.SingularUint64 &&
-		x.SingularSint32 == y.SingularSint32 &&
-		x.SingularSint64 == y.SingularSint64 &&
-		x.SingularFixed32 == y.SingularFixed32 &&
-		x.SingularFixed64 == y.SingularFixed64 &&
-		x.SingularSfixed32 == y.SingularSfixed32 &&
-		x.SingularSfixed64 == y.SingularSfixed64 &&
-		func() bool {
-			if math.IsNaN(float64(x.SingularFloat)) || math.IsNaN(float64(y.SingularFloat)) {
-				return math.IsNaN(float64(x.SingularFloat)) && math.IsNaN(float64(y.SingularFloat))
-			}
-			return x.SingularFloat == y.SingularFloat
-		}() &&
-		func() bool {
-			if math.IsNaN(float64(x.SingularDouble)) || math.IsNaN(float64(y.SingularDouble)) {
-				return math.IsNaN(float64(x.SingularDouble)) && math.IsNaN(float64(y.SingularDouble))
-			}
-			return x.SingularDouble == y.SingularDouble
-		}() &&
-		x.SingularBool == y.SingularBool &&
-		x.SingularString == y.SingularString &&
-		bytes.Equal(x.SingularBytes, y.SingularBytes) &&
-		x.SingularNestedMessage.Equal(y.SingularNestedMessage) &&
-		x.SingularForeignMessage.Equal(y.SingularForeignMessage) &&
-		x.SingularImportMessage.Equal(y.SingularImportMessage) &&
-		x.SingularNestedEnum == y.SingularNestedEnum &&
-		x.SingularForeignEnum == y.SingularForeignEnum &&
-		x.SingularImportEnum == y.SingularImportEnum &&
-		func() bool {
-			if x.OptionalInt32 == nil || y.OptionalInt32 == nil {
-				return x.OptionalInt32 == nil && y.OptionalInt32 == nil
-			}
-			ox, oy := x.GetOptionalInt32(), y.GetOptionalInt32()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalInt64 == nil || y.OptionalInt64 == nil {
-				return x.OptionalInt64 == nil && y.OptionalInt64 == nil
-			}
-			ox, oy := x.GetOptionalInt64(), y.GetOptionalInt64()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalUint32 == nil || y.OptionalUint32 == nil {
-				return x.OptionalUint32 == nil && y.OptionalUint32 == nil
-			}
-			ox, oy := x.GetOptionalUint32(), y.GetOptionalUint32()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalUint64 == nil || y.OptionalUint64 == nil {
-				return x.OptionalUint64 == nil && y.OptionalUint64 == nil
-			}
-			ox, oy := x.GetOptionalUint64(), y.GetOptionalUint64()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalSint32 == nil || y.OptionalSint32 == nil {
-				return x.OptionalSint32 == nil && y.OptionalSint32 == nil
-			}
-			ox, oy := x.GetOptionalSint32(), y.GetOptionalSint32()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalSint64 == nil || y.OptionalSint64 == nil {
-				return x.OptionalSint64 == nil && y.OptionalSint64 == nil
-			}
-			ox, oy := x.GetOptionalSint64(), y.GetOptionalSint64()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalFixed32 == nil || y.OptionalFixed32 == nil {
-				return x.OptionalFixed32 == nil && y.OptionalFixed32 == nil
-			}
-			ox, oy := x.GetOptionalFixed32(), y.GetOptionalFixed32()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalFixed64 == nil || y.OptionalFixed64 == nil {
-				return x.OptionalFixed64 == nil && y.OptionalFixed64 == nil
-			}
-			ox, oy := x.GetOptionalFixed64(), y.GetOptionalFixed64()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalSfixed32 == nil || y.OptionalSfixed32 == nil {
-				return x.OptionalSfixed32 == nil && y.OptionalSfixed32 == nil
-			}
-			ox, oy := x.GetOptionalSfixed32(), y.GetOptionalSfixed32()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalSfixed64 == nil || y.OptionalSfixed64 == nil {
-				return x.OptionalSfixed64 == nil && y.OptionalSfixed64 == nil
-			}
-			ox, oy := x.GetOptionalSfixed64(), y.GetOptionalSfixed64()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalFloat == nil || y.OptionalFloat == nil {
-				return x.OptionalFloat == nil && y.OptionalFloat == nil
-			}
-			ox, oy := x.GetOptionalFloat(), y.GetOptionalFloat()
-			return true &&
-				func() bool {
-					if math.IsNaN(float64(ox)) || math.IsNaN(float64(oy)) {
-						return math.IsNaN(float64(ox)) && math.IsNaN(float64(oy))
-					}
-					return ox == oy
-				}()
-		}() &&
-		func() bool {
-			if x.OptionalDouble == nil || y.OptionalDouble == nil {
-				return x.OptionalDouble == nil && y.OptionalDouble == nil
-			}
-			ox, oy := x.GetOptionalDouble(), y.GetOptionalDouble()
-			return true &&
-				func() bool {
-					if math.IsNaN(float64(ox)) || math.IsNaN(float64(oy)) {
-						return math.IsNaN(float64(ox)) && math.IsNaN(float64(oy))
-					}
-					return ox == oy
-				}()
-		}() &&
-		func() bool {
-			if x.OptionalBool == nil || y.OptionalBool == nil {
-				return x.OptionalBool == nil && y.OptionalBool == nil
-			}
-			ox, oy := x.GetOptionalBool(), y.GetOptionalBool()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalString == nil || y.OptionalString == nil {
-				return x.OptionalString == nil && y.OptionalString == nil
-			}
-			ox, oy := x.GetOptionalString(), y.GetOptionalString()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalBytes == nil || y.OptionalBytes == nil {
-				return x.OptionalBytes == nil && y.OptionalBytes == nil
-			}
-			ox, oy := x.GetOptionalBytes(), y.GetOptionalBytes()
-			return true &&
-				bytes.Equal(ox, oy)
-		}() &&
-		func() bool {
-			if x.OptionalNestedMessage == nil || y.OptionalNestedMessage == nil {
-				return x.OptionalNestedMessage == nil && y.OptionalNestedMessage == nil
-			}
-			ox, oy := x.GetOptionalNestedMessage(), y.GetOptionalNestedMessage()
-			return true &&
-				ox.Equal(oy)
-		}() &&
-		func() bool {
-			if x.OptionalForeignMessage == nil || y.OptionalForeignMessage == nil {
-				return x.OptionalForeignMessage == nil && y.OptionalForeignMessage == nil
-			}
-			ox, oy := x.GetOptionalForeignMessage(), y.GetOptionalForeignMessage()
-			return true &&
-				ox.Equal(oy)
-		}() &&
-		func() bool {
-			if x.OptionalImportMessage == nil || y.OptionalImportMessage == nil {
-				return x.OptionalImportMessage == nil && y.OptionalImportMessage == nil
-			}
-			ox, oy := x.GetOptionalImportMessage(), y.GetOptionalImportMessage()
-			return true &&
-				ox.Equal(oy)
-		}() &&
-		func() bool {
-			if x.OptionalNestedEnum == nil || y.OptionalNestedEnum == nil {
-				return x.OptionalNestedEnum == nil && y.OptionalNestedEnum == nil
-			}
-			ox, oy := x.GetOptionalNestedEnum(), y.GetOptionalNestedEnum()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalForeignEnum == nil || y.OptionalForeignEnum == nil {
-				return x.OptionalForeignEnum == nil && y.OptionalForeignEnum == nil
-			}
-			ox, oy := x.GetOptionalForeignEnum(), y.GetOptionalForeignEnum()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if x.OptionalImportEnum == nil || y.OptionalImportEnum == nil {
-				return x.OptionalImportEnum == nil && y.OptionalImportEnum == nil
-			}
-			ox, oy := x.GetOptionalImportEnum(), y.GetOptionalImportEnum()
-			return true &&
-				ox == oy
-		}() &&
-		func() bool {
-			if len(x.RepeatedInt32) != len(y.RepeatedInt32) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedInt32); i++ {
-				equal :=
-					x.RepeatedInt32[i] == y.RepeatedInt32[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedInt64) != len(y.RepeatedInt64) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedInt64); i++ {
-				equal :=
-					x.RepeatedInt64[i] == y.RepeatedInt64[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedUint32) != len(y.RepeatedUint32) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedUint32); i++ {
-				equal :=
-					x.RepeatedUint32[i] == y.RepeatedUint32[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedUint64) != len(y.RepeatedUint64) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedUint64); i++ {
-				equal :=
-					x.RepeatedUint64[i] == y.RepeatedUint64[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedSint32) != len(y.RepeatedSint32) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedSint32); i++ {
-				equal :=
-					x.RepeatedSint32[i] == y.RepeatedSint32[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedSint64) != len(y.RepeatedSint64) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedSint64); i++ {
-				equal :=
-					x.RepeatedSint64[i] == y.RepeatedSint64[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedFixed32) != len(y.RepeatedFixed32) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedFixed32); i++ {
-				equal :=
-					x.RepeatedFixed32[i] == y.RepeatedFixed32[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedFixed64) != len(y.RepeatedFixed64) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedFixed64); i++ {
-				equal :=
-					x.RepeatedFixed64[i] == y.RepeatedFixed64[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedSfixed32) != len(y.RepeatedSfixed32) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedSfixed32); i++ {
-				equal :=
-					x.RepeatedSfixed32[i] == y.RepeatedSfixed32[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedSfixed64) != len(y.RepeatedSfixed64) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedSfixed64); i++ {
-				equal :=
-					x.RepeatedSfixed64[i] == y.RepeatedSfixed64[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedFloat) != len(y.RepeatedFloat) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedFloat); i++ {
-				equal :=
-					func() bool {
-						if math.IsNaN(float64(x.RepeatedFloat[i])) || math.IsNaN(float64(y.RepeatedFloat[i])) {
-							return math.IsNaN(float64(x.RepeatedFloat[i])) && math.IsNaN(float64(y.RepeatedFloat[i]))
-						}
-						return x.RepeatedFloat[i] == y.RepeatedFloat[i]
-					}()
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedDouble) != len(y.RepeatedDouble) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedDouble); i++ {
-				equal :=
-					func() bool {
-						if math.IsNaN(float64(x.RepeatedDouble[i])) || math.IsNaN(float64(y.RepeatedDouble[i])) {
-							return math.IsNaN(float64(x.RepeatedDouble[i])) && math.IsNaN(float64(y.RepeatedDouble[i]))
-						}
-						return x.RepeatedDouble[i] == y.RepeatedDouble[i]
-					}()
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedBool) != len(y.RepeatedBool) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedBool); i++ {
-				equal :=
-					x.RepeatedBool[i] == y.RepeatedBool[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedString) != len(y.RepeatedString) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedString); i++ {
-				equal :=
-					x.RepeatedString[i] == y.RepeatedString[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedBytes) != len(y.RepeatedBytes) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedBytes); i++ {
-				equal :=
-					bytes.Equal(x.RepeatedBytes[i], y.RepeatedBytes[i])
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedNestedMessage) != len(y.RepeatedNestedMessage) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedNestedMessage); i++ {
-				equal :=
-					x.RepeatedNestedMessage[i].Equal(y.RepeatedNestedMessage[i])
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedForeignMessage) != len(y.RepeatedForeignMessage) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedForeignMessage); i++ {
-				equal :=
-					x.RepeatedForeignMessage[i].Equal(y.RepeatedForeignMessage[i])
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedImportmessage) != len(y.RepeatedImportmessage) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedImportmessage); i++ {
-				equal :=
-					x.RepeatedImportmessage[i].Equal(y.RepeatedImportmessage[i])
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedNestedEnum) != len(y.RepeatedNestedEnum) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedNestedEnum); i++ {
-				equal :=
-					x.RepeatedNestedEnum[i] == y.RepeatedNestedEnum[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedForeignEnum) != len(y.RepeatedForeignEnum) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedForeignEnum); i++ {
-				equal :=
-					x.RepeatedForeignEnum[i] == y.RepeatedForeignEnum[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.RepeatedImportenum) != len(y.RepeatedImportenum) {
-				return false
-			}
-			for i := 0; i < len(x.RepeatedImportenum); i++ {
-				equal :=
-					x.RepeatedImportenum[i] == y.RepeatedImportenum[i]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapInt32Int32) != len(y.MapInt32Int32) {
-				return false
-			}
-			for k := range x.MapInt32Int32 {
-				_, hasKey := y.MapInt32Int32[k]
-				equal := hasKey &&
-					x.MapInt32Int32[k] == y.MapInt32Int32[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapInt64Int64) != len(y.MapInt64Int64) {
-				return false
-			}
-			for k := range x.MapInt64Int64 {
-				_, hasKey := y.MapInt64Int64[k]
-				equal := hasKey &&
-					x.MapInt64Int64[k] == y.MapInt64Int64[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapUint32Uint32) != len(y.MapUint32Uint32) {
-				return false
-			}
-			for k := range x.MapUint32Uint32 {
-				_, hasKey := y.MapUint32Uint32[k]
-				equal := hasKey &&
-					x.MapUint32Uint32[k] == y.MapUint32Uint32[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapUint64Uint64) != len(y.MapUint64Uint64) {
-				return false
-			}
-			for k := range x.MapUint64Uint64 {
-				_, hasKey := y.MapUint64Uint64[k]
-				equal := hasKey &&
-					x.MapUint64Uint64[k] == y.MapUint64Uint64[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapSint32Sint32) != len(y.MapSint32Sint32) {
-				return false
-			}
-			for k := range x.MapSint32Sint32 {
-				_, hasKey := y.MapSint32Sint32[k]
-				equal := hasKey &&
-					x.MapSint32Sint32[k] == y.MapSint32Sint32[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapSint64Sint64) != len(y.MapSint64Sint64) {
-				return false
-			}
-			for k := range x.MapSint64Sint64 {
-				_, hasKey := y.MapSint64Sint64[k]
-				equal := hasKey &&
-					x.MapSint64Sint64[k] == y.MapSint64Sint64[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapFixed32Fixed32) != len(y.MapFixed32Fixed32) {
-				return false
-			}
-			for k := range x.MapFixed32Fixed32 {
-				_, hasKey := y.MapFixed32Fixed32[k]
-				equal := hasKey &&
-					x.MapFixed32Fixed32[k] == y.MapFixed32Fixed32[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapFixed64Fixed64) != len(y.MapFixed64Fixed64) {
-				return false
-			}
-			for k := range x.MapFixed64Fixed64 {
-				_, hasKey := y.MapFixed64Fixed64[k]
-				equal := hasKey &&
-					x.MapFixed64Fixed64[k] == y.MapFixed64Fixed64[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapSfixed32Sfixed32) != len(y.MapSfixed32Sfixed32) {
-				return false
-			}
-			for k := range x.MapSfixed32Sfixed32 {
-				_, hasKey := y.MapSfixed32Sfixed32[k]
-				equal := hasKey &&
-					x.MapSfixed32Sfixed32[k] == y.MapSfixed32Sfixed32[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapSfixed64Sfixed64) != len(y.MapSfixed64Sfixed64) {
-				return false
-			}
-			for k := range x.MapSfixed64Sfixed64 {
-				_, hasKey := y.MapSfixed64Sfixed64[k]
-				equal := hasKey &&
-					x.MapSfixed64Sfixed64[k] == y.MapSfixed64Sfixed64[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapInt32Float) != len(y.MapInt32Float) {
-				return false
-			}
-			for k := range x.MapInt32Float {
-				_, hasKey := y.MapInt32Float[k]
-				equal := hasKey &&
-					func() bool {
-						if math.IsNaN(float64(x.MapInt32Float[k])) || math.IsNaN(float64(y.MapInt32Float[k])) {
-							return math.IsNaN(float64(x.MapInt32Float[k])) && math.IsNaN(float64(y.MapInt32Float[k]))
-						}
-						return x.MapInt32Float[k] == y.MapInt32Float[k]
-					}()
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapInt32Double) != len(y.MapInt32Double) {
-				return false
-			}
-			for k := range x.MapInt32Double {
-				_, hasKey := y.MapInt32Double[k]
-				equal := hasKey &&
-					func() bool {
-						if math.IsNaN(float64(x.MapInt32Double[k])) || math.IsNaN(float64(y.MapInt32Double[k])) {
-							return math.IsNaN(float64(x.MapInt32Double[k])) && math.IsNaN(float64(y.MapInt32Double[k]))
-						}
-						return x.MapInt32Double[k] == y.MapInt32Double[k]
-					}()
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapBoolBool) != len(y.MapBoolBool) {
-				return false
-			}
-			for k := range x.MapBoolBool {
-				_, hasKey := y.MapBoolBool[k]
-				equal := hasKey &&
-					x.MapBoolBool[k] == y.MapBoolBool[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapStringString) != len(y.MapStringString) {
-				return false
-			}
-			for k := range x.MapStringString {
-				_, hasKey := y.MapStringString[k]
-				equal := hasKey &&
-					x.MapStringString[k] == y.MapStringString[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapStringBytes) != len(y.MapStringBytes) {
-				return false
-			}
-			for k := range x.MapStringBytes {
-				_, hasKey := y.MapStringBytes[k]
-				equal := hasKey &&
-					bytes.Equal(x.MapStringBytes[k], y.MapStringBytes[k])
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapStringNestedMessage) != len(y.MapStringNestedMessage) {
-				return false
-			}
-			for k := range x.MapStringNestedMessage {
-				_, hasKey := y.MapStringNestedMessage[k]
-				equal := hasKey &&
-					x.MapStringNestedMessage[k].Equal(y.MapStringNestedMessage[k])
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		func() bool {
-			if len(x.MapStringNestedEnum) != len(y.MapStringNestedEnum) {
-				return false
-			}
-			for k := range x.MapStringNestedEnum {
-				_, hasKey := y.MapStringNestedEnum[k]
-				equal := hasKey &&
-					x.MapStringNestedEnum[k] == y.MapStringNestedEnum[k]
-				if !equal {
-					return false
-				}
-			}
-			return true
-		}() &&
-		x.GetOneofUint32() == y.GetOneofUint32() &&
-		x.GetOneofNestedMessage().Equal(y.GetOneofNestedMessage()) &&
-		x.GetOneofString() == y.GetOneofString() &&
-		bytes.Equal(x.GetOneofBytes(), y.GetOneofBytes()) &&
-		x.GetOneofBool() == y.GetOneofBool() &&
-		x.GetOneofUint64() == y.GetOneofUint64() &&
-		func() bool {
-			if math.IsNaN(float64(x.GetOneofFloat())) || math.IsNaN(float64(y.GetOneofFloat())) {
-				return math.IsNaN(float64(x.GetOneofFloat())) && math.IsNaN(float64(y.GetOneofFloat()))
-			}
-			return x.GetOneofFloat() == y.GetOneofFloat()
-		}() &&
-		func() bool {
-			if math.IsNaN(float64(x.GetOneofDouble())) || math.IsNaN(float64(y.GetOneofDouble())) {
-				return math.IsNaN(float64(x.GetOneofDouble())) && math.IsNaN(float64(y.GetOneofDouble()))
-			}
-			return x.GetOneofDouble() == y.GetOneofDouble()
-		}() &&
-		x.GetOneofEnum() == y.GetOneofEnum() &&
-		func() bool {
-			if x.GetOneofWrappersStringValue() == nil || y.GetOneofWrappersStringValue() == nil {
-				return x.GetOneofWrappersStringValue() == nil && y.GetOneofWrappersStringValue() == nil
-			}
-			return x.GetOneofWrappersStringValue().Value == y.GetOneofWrappersStringValue().Value
-		}() &&
-		func() bool {
-			if x.Any == nil || y.Any == nil {
-				return x.Any == nil && y.Any == nil
-			}
-			return x.Any.TypeUrl == y.Any.TypeUrl && bytes.Equal(x.Any.Value, y.Any.Value)
-		}() &&
-		func() bool {
-			if x.Duration == nil || y.Duration == nil {
-				return x.Duration == nil && y.Duration == nil
-			}
-			return x.Duration.Seconds == y.Duration.Seconds && x.Duration.Nanos == y.Duration.Nanos
-		}() &&
-		(x.Empty == nil && y.Empty == nil || x.Empty != nil && y.Empty != nil) &&
-		func() bool {
-			if x.Timestamp == nil || y.Timestamp == nil {
-				return x.Timestamp == nil && y.Timestamp == nil
-			}
-			return x.Timestamp.Seconds == y.Timestamp.Seconds && x.Timestamp.Nanos == y.Timestamp.Nanos
-		}() &&
-		func() bool {
-			if x.WrappersBoolValue == nil || y.WrappersBoolValue == nil {
-				return x.WrappersBoolValue == nil && y.WrappersBoolValue == nil
-			}
-			return x.GetWrappersBoolValue().Value == y.GetWrappersBoolValue().Value
-		}() &&
-		func() bool {
-			if x.WrappersBytesValue == nil || y.WrappersBytesValue == nil {
-				return x.WrappersBytesValue == nil && y.WrappersBytesValue == nil
-			}
-			return bytes.Equal(x.GetWrappersBytesValue().Value, y.GetWrappersBytesValue().Value)
-		}() &&
-		func() bool {
-			if x.WrappersDoubleValue == nil || y.WrappersDoubleValue == nil {
-				return x.WrappersDoubleValue == nil && y.WrappersDoubleValue == nil
-			}
-			return func() bool {
-				if math.IsNaN(float64(x.GetWrappersDoubleValue().Value)) || math.IsNaN(float64(y.GetWrappersDoubleValue().Value)) {
-					return math.IsNaN(float64(x.GetWrappersDoubleValue().Value)) && math.IsNaN(float64(y.GetWrappersDoubleValue().Value))
-				}
-				return x.GetWrappersDoubleValue().Value == y.GetWrappersDoubleValue().Value
-			}()
-		}() &&
-		func() bool {
-			if x.WrappersFloatValue == nil || y.WrappersFloatValue == nil {
-				return x.WrappersFloatValue == nil && y.WrappersFloatValue == nil
-			}
-			return func() bool {
-				if math.IsNaN(float64(x.GetWrappersFloatValue().Value)) || math.IsNaN(float64(y.GetWrappersFloatValue().Value)) {
-					return math.IsNaN(float64(x.GetWrappersFloatValue().Value)) && math.IsNaN(float64(y.GetWrappersFloatValue().Value))
-				}
-				return x.GetWrappersFloatValue().Value == y.GetWrappersFloatValue().Value
-			}()
-		}() &&
-		func() bool {
-			if x.WrappersInt32Value == nil || y.WrappersInt32Value == nil {
-				return x.WrappersInt32Value == nil && y.WrappersInt32Value == nil
-			}
-			return x.GetWrappersInt32Value().Value == y.GetWrappersInt32Value().Value
-		}() &&
-		func() bool {
-			if x.WrappersInt64Value == nil || y.WrappersInt64Value == nil {
-				return x.WrappersInt64Value == nil && y.WrappersInt64Value == nil
-			}
-			return x.GetWrappersInt64Value().Value == y.GetWrappersInt64Value().Value
-		}() &&
-		func() bool {
-			if x.WrappersStringValue == nil || y.WrappersStringValue == nil {
-				return x.WrappersStringValue == nil && y.WrappersStringValue == nil
-			}
-			return x.GetWrappersStringValue().Value == y.GetWrappersStringValue().Value
-		}() &&
-		func() bool {
-			if x.WrappersUint32Value == nil || y.WrappersUint32Value == nil {
-				return x.WrappersUint32Value == nil && y.WrappersUint32Value == nil
-			}
-			return x.GetWrappersUint32Value().Value == y.GetWrappersUint32Value().Value
-		}() &&
-		func() bool {
-			if x.WrappersUint64Value == nil || y.WrappersUint64Value == nil {
-				return x.WrappersUint64Value == nil && y.WrappersUint64Value == nil
-			}
-			return x.GetWrappersUint64Value().Value == y.GetWrappersUint64Value().Value
-		}()
+	if x == nil || y == nil {
+		return x == nil && y == nil
+	}
+	if x.SingularInt32 != y.SingularInt32 {
+		return false
+	}
+	if x.SingularInt64 != y.SingularInt64 {
+		return false
+	}
+	if x.SingularUint32 != y.SingularUint32 {
+		return false
+	}
+	if x.SingularUint64 != y.SingularUint64 {
+		return false
+	}
+	if x.SingularSint32 != y.SingularSint32 {
+		return false
+	}
+	if x.SingularSint64 != y.SingularSint64 {
+		return false
+	}
+	if x.SingularFixed32 != y.SingularFixed32 {
+		return false
+	}
+	if x.SingularFixed64 != y.SingularFixed64 {
+		return false
+	}
+	if x.SingularSfixed32 != y.SingularSfixed32 {
+		return false
+	}
+	if x.SingularSfixed64 != y.SingularSfixed64 {
+		return false
+	}
+	if (math.IsNaN(float64(x.SingularFloat)) && !math.IsNaN(float64(y.SingularFloat)) || !math.IsNaN(float64(x.SingularFloat)) && math.IsNaN(float64(y.SingularFloat))) || (!math.IsNaN(float64(x.SingularFloat)) && !math.IsNaN(float64(y.SingularFloat)) && x.SingularFloat != y.SingularFloat) {
+		return false
+	}
+	if (math.IsNaN(float64(x.SingularDouble)) && !math.IsNaN(float64(y.SingularDouble)) || !math.IsNaN(float64(x.SingularDouble)) && math.IsNaN(float64(y.SingularDouble))) || (!math.IsNaN(float64(x.SingularDouble)) && !math.IsNaN(float64(y.SingularDouble)) && x.SingularDouble != y.SingularDouble) {
+		return false
+	}
+	if x.SingularBool != y.SingularBool {
+		return false
+	}
+	if x.SingularString != y.SingularString {
+		return false
+	}
+	if string(x.SingularBytes) != string(y.SingularBytes) {
+		return false
+	}
+	if !x.SingularNestedMessage.Equal(y.SingularNestedMessage) {
+		return false
+	}
+	if !x.SingularForeignMessage.Equal(y.SingularForeignMessage) {
+		return false
+	}
+	if !x.SingularImportMessage.Equal(y.SingularImportMessage) {
+		return false
+	}
+	if x.SingularNestedEnum != y.SingularNestedEnum {
+		return false
+	}
+	if x.SingularForeignEnum != y.SingularForeignEnum {
+		return false
+	}
+	if x.SingularImportEnum != y.SingularImportEnum {
+		return false
+	}
+	if p, q := x.OptionalInt32, y.OptionalInt32; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalInt64, y.OptionalInt64; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalUint32, y.OptionalUint32; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalUint64, y.OptionalUint64; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalSint32, y.OptionalSint32; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalSint64, y.OptionalSint64; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalFixed32, y.OptionalFixed32; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalFixed64, y.OptionalFixed64; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalSfixed32, y.OptionalSfixed32; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalSfixed64, y.OptionalSfixed64; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalFloat, y.OptionalFloat; (p == nil && q != nil) || (p != nil && (q == nil || (math.IsNaN(float64(*p)) && !math.IsNaN(float64(*q)) || !math.IsNaN(float64(*p)) && math.IsNaN(float64(*q))) || (!math.IsNaN(float64(*p)) && !math.IsNaN(float64(*q)) && *p != *q))) {
+		return false
+	}
+	if p, q := x.OptionalDouble, y.OptionalDouble; (p == nil && q != nil) || (p != nil && (q == nil || (math.IsNaN(float64(*p)) && !math.IsNaN(float64(*q)) || !math.IsNaN(float64(*p)) && math.IsNaN(float64(*q))) || (!math.IsNaN(float64(*p)) && !math.IsNaN(float64(*q)) && *p != *q))) {
+		return false
+	}
+	if p, q := x.OptionalBool, y.OptionalBool; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalString, y.OptionalString; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalBytes, y.OptionalBytes; (p == nil && q != nil) || (p != nil && (q == nil || string(p) != string(q))) {
+		return false
+	}
+	if !x.OptionalNestedMessage.Equal(y.OptionalNestedMessage) {
+		return false
+	}
+	if !x.OptionalForeignMessage.Equal(y.OptionalForeignMessage) {
+		return false
+	}
+	if !x.OptionalImportMessage.Equal(y.OptionalImportMessage) {
+		return false
+	}
+	if p, q := x.OptionalNestedEnum, y.OptionalNestedEnum; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalForeignEnum, y.OptionalForeignEnum; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if p, q := x.OptionalImportEnum, y.OptionalImportEnum; (p == nil && q != nil) || (p != nil && (q == nil || *p != *q)) {
+		return false
+	}
+	if len(x.RepeatedInt32) != len(y.RepeatedInt32) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedInt32); i++ {
+		if x.RepeatedInt32[i] != y.RepeatedInt32[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedInt64) != len(y.RepeatedInt64) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedInt64); i++ {
+		if x.RepeatedInt64[i] != y.RepeatedInt64[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedUint32) != len(y.RepeatedUint32) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedUint32); i++ {
+		if x.RepeatedUint32[i] != y.RepeatedUint32[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedUint64) != len(y.RepeatedUint64) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedUint64); i++ {
+		if x.RepeatedUint64[i] != y.RepeatedUint64[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedSint32) != len(y.RepeatedSint32) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedSint32); i++ {
+		if x.RepeatedSint32[i] != y.RepeatedSint32[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedSint64) != len(y.RepeatedSint64) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedSint64); i++ {
+		if x.RepeatedSint64[i] != y.RepeatedSint64[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedFixed32) != len(y.RepeatedFixed32) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedFixed32); i++ {
+		if x.RepeatedFixed32[i] != y.RepeatedFixed32[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedFixed64) != len(y.RepeatedFixed64) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedFixed64); i++ {
+		if x.RepeatedFixed64[i] != y.RepeatedFixed64[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedSfixed32) != len(y.RepeatedSfixed32) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedSfixed32); i++ {
+		if x.RepeatedSfixed32[i] != y.RepeatedSfixed32[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedSfixed64) != len(y.RepeatedSfixed64) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedSfixed64); i++ {
+		if x.RepeatedSfixed64[i] != y.RepeatedSfixed64[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedFloat) != len(y.RepeatedFloat) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedFloat); i++ {
+		if (math.IsNaN(float64(x.RepeatedFloat[i])) && !math.IsNaN(float64(y.RepeatedFloat[i])) || !math.IsNaN(float64(x.RepeatedFloat[i])) && math.IsNaN(float64(y.RepeatedFloat[i]))) || (!math.IsNaN(float64(x.RepeatedFloat[i])) && !math.IsNaN(float64(y.RepeatedFloat[i])) && x.RepeatedFloat[i] != y.RepeatedFloat[i]) {
+			return false
+		}
+	}
+	if len(x.RepeatedDouble) != len(y.RepeatedDouble) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedDouble); i++ {
+		if (math.IsNaN(float64(x.RepeatedDouble[i])) && !math.IsNaN(float64(y.RepeatedDouble[i])) || !math.IsNaN(float64(x.RepeatedDouble[i])) && math.IsNaN(float64(y.RepeatedDouble[i]))) || (!math.IsNaN(float64(x.RepeatedDouble[i])) && !math.IsNaN(float64(y.RepeatedDouble[i])) && x.RepeatedDouble[i] != y.RepeatedDouble[i]) {
+			return false
+		}
+	}
+	if len(x.RepeatedBool) != len(y.RepeatedBool) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedBool); i++ {
+		if x.RepeatedBool[i] != y.RepeatedBool[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedString) != len(y.RepeatedString) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedString); i++ {
+		if x.RepeatedString[i] != y.RepeatedString[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedBytes) != len(y.RepeatedBytes) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedBytes); i++ {
+		if string(x.RepeatedBytes[i]) != string(y.RepeatedBytes[i]) {
+			return false
+		}
+	}
+	if len(x.RepeatedNestedMessage) != len(y.RepeatedNestedMessage) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedNestedMessage); i++ {
+		if !x.RepeatedNestedMessage[i].Equal(y.RepeatedNestedMessage[i]) {
+			return false
+		}
+	}
+	if len(x.RepeatedForeignMessage) != len(y.RepeatedForeignMessage) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedForeignMessage); i++ {
+		if !x.RepeatedForeignMessage[i].Equal(y.RepeatedForeignMessage[i]) {
+			return false
+		}
+	}
+	if len(x.RepeatedImportmessage) != len(y.RepeatedImportmessage) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedImportmessage); i++ {
+		if !x.RepeatedImportmessage[i].Equal(y.RepeatedImportmessage[i]) {
+			return false
+		}
+	}
+	if len(x.RepeatedNestedEnum) != len(y.RepeatedNestedEnum) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedNestedEnum); i++ {
+		if x.RepeatedNestedEnum[i] != y.RepeatedNestedEnum[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedForeignEnum) != len(y.RepeatedForeignEnum) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedForeignEnum); i++ {
+		if x.RepeatedForeignEnum[i] != y.RepeatedForeignEnum[i] {
+			return false
+		}
+	}
+	if len(x.RepeatedImportenum) != len(y.RepeatedImportenum) {
+		return false
+	}
+	for i := 0; i < len(x.RepeatedImportenum); i++ {
+		if x.RepeatedImportenum[i] != y.RepeatedImportenum[i] {
+			return false
+		}
+	}
+	if len(x.MapInt32Int32) != len(y.MapInt32Int32) {
+		return false
+	}
+	for k := range x.MapInt32Int32 {
+		_, ok := y.MapInt32Int32[k]
+		if !ok {
+			return false
+		}
+		if x.MapInt32Int32[k] != y.MapInt32Int32[k] {
+			return false
+		}
+	}
+	if len(x.MapInt64Int64) != len(y.MapInt64Int64) {
+		return false
+	}
+	for k := range x.MapInt64Int64 {
+		_, ok := y.MapInt64Int64[k]
+		if !ok {
+			return false
+		}
+		if x.MapInt64Int64[k] != y.MapInt64Int64[k] {
+			return false
+		}
+	}
+	if len(x.MapUint32Uint32) != len(y.MapUint32Uint32) {
+		return false
+	}
+	for k := range x.MapUint32Uint32 {
+		_, ok := y.MapUint32Uint32[k]
+		if !ok {
+			return false
+		}
+		if x.MapUint32Uint32[k] != y.MapUint32Uint32[k] {
+			return false
+		}
+	}
+	if len(x.MapUint64Uint64) != len(y.MapUint64Uint64) {
+		return false
+	}
+	for k := range x.MapUint64Uint64 {
+		_, ok := y.MapUint64Uint64[k]
+		if !ok {
+			return false
+		}
+		if x.MapUint64Uint64[k] != y.MapUint64Uint64[k] {
+			return false
+		}
+	}
+	if len(x.MapSint32Sint32) != len(y.MapSint32Sint32) {
+		return false
+	}
+	for k := range x.MapSint32Sint32 {
+		_, ok := y.MapSint32Sint32[k]
+		if !ok {
+			return false
+		}
+		if x.MapSint32Sint32[k] != y.MapSint32Sint32[k] {
+			return false
+		}
+	}
+	if len(x.MapSint64Sint64) != len(y.MapSint64Sint64) {
+		return false
+	}
+	for k := range x.MapSint64Sint64 {
+		_, ok := y.MapSint64Sint64[k]
+		if !ok {
+			return false
+		}
+		if x.MapSint64Sint64[k] != y.MapSint64Sint64[k] {
+			return false
+		}
+	}
+	if len(x.MapFixed32Fixed32) != len(y.MapFixed32Fixed32) {
+		return false
+	}
+	for k := range x.MapFixed32Fixed32 {
+		_, ok := y.MapFixed32Fixed32[k]
+		if !ok {
+			return false
+		}
+		if x.MapFixed32Fixed32[k] != y.MapFixed32Fixed32[k] {
+			return false
+		}
+	}
+	if len(x.MapFixed64Fixed64) != len(y.MapFixed64Fixed64) {
+		return false
+	}
+	for k := range x.MapFixed64Fixed64 {
+		_, ok := y.MapFixed64Fixed64[k]
+		if !ok {
+			return false
+		}
+		if x.MapFixed64Fixed64[k] != y.MapFixed64Fixed64[k] {
+			return false
+		}
+	}
+	if len(x.MapSfixed32Sfixed32) != len(y.MapSfixed32Sfixed32) {
+		return false
+	}
+	for k := range x.MapSfixed32Sfixed32 {
+		_, ok := y.MapSfixed32Sfixed32[k]
+		if !ok {
+			return false
+		}
+		if x.MapSfixed32Sfixed32[k] != y.MapSfixed32Sfixed32[k] {
+			return false
+		}
+	}
+	if len(x.MapSfixed64Sfixed64) != len(y.MapSfixed64Sfixed64) {
+		return false
+	}
+	for k := range x.MapSfixed64Sfixed64 {
+		_, ok := y.MapSfixed64Sfixed64[k]
+		if !ok {
+			return false
+		}
+		if x.MapSfixed64Sfixed64[k] != y.MapSfixed64Sfixed64[k] {
+			return false
+		}
+	}
+	if len(x.MapInt32Float) != len(y.MapInt32Float) {
+		return false
+	}
+	for k := range x.MapInt32Float {
+		_, ok := y.MapInt32Float[k]
+		if !ok {
+			return false
+		}
+		if (math.IsNaN(float64(x.MapInt32Float[k])) && !math.IsNaN(float64(y.MapInt32Float[k])) || !math.IsNaN(float64(x.MapInt32Float[k])) && math.IsNaN(float64(y.MapInt32Float[k]))) || (!math.IsNaN(float64(x.MapInt32Float[k])) && !math.IsNaN(float64(y.MapInt32Float[k])) && x.MapInt32Float[k] != y.MapInt32Float[k]) {
+			return false
+		}
+	}
+	if len(x.MapInt32Double) != len(y.MapInt32Double) {
+		return false
+	}
+	for k := range x.MapInt32Double {
+		_, ok := y.MapInt32Double[k]
+		if !ok {
+			return false
+		}
+		if (math.IsNaN(float64(x.MapInt32Double[k])) && !math.IsNaN(float64(y.MapInt32Double[k])) || !math.IsNaN(float64(x.MapInt32Double[k])) && math.IsNaN(float64(y.MapInt32Double[k]))) || (!math.IsNaN(float64(x.MapInt32Double[k])) && !math.IsNaN(float64(y.MapInt32Double[k])) && x.MapInt32Double[k] != y.MapInt32Double[k]) {
+			return false
+		}
+	}
+	if len(x.MapBoolBool) != len(y.MapBoolBool) {
+		return false
+	}
+	for k := range x.MapBoolBool {
+		_, ok := y.MapBoolBool[k]
+		if !ok {
+			return false
+		}
+		if x.MapBoolBool[k] != y.MapBoolBool[k] {
+			return false
+		}
+	}
+	if len(x.MapStringString) != len(y.MapStringString) {
+		return false
+	}
+	for k := range x.MapStringString {
+		_, ok := y.MapStringString[k]
+		if !ok {
+			return false
+		}
+		if x.MapStringString[k] != y.MapStringString[k] {
+			return false
+		}
+	}
+	if len(x.MapStringBytes) != len(y.MapStringBytes) {
+		return false
+	}
+	for k := range x.MapStringBytes {
+		_, ok := y.MapStringBytes[k]
+		if !ok {
+			return false
+		}
+		if string(x.MapStringBytes[k]) != string(y.MapStringBytes[k]) {
+			return false
+		}
+	}
+	if len(x.MapStringNestedMessage) != len(y.MapStringNestedMessage) {
+		return false
+	}
+	for k := range x.MapStringNestedMessage {
+		_, ok := y.MapStringNestedMessage[k]
+		if !ok {
+			return false
+		}
+		if !x.MapStringNestedMessage[k].Equal(y.MapStringNestedMessage[k]) {
+			return false
+		}
+	}
+	if len(x.MapStringNestedEnum) != len(y.MapStringNestedEnum) {
+		return false
+	}
+	for k := range x.MapStringNestedEnum {
+		_, ok := y.MapStringNestedEnum[k]
+		if !ok {
+			return false
+		}
+		if x.MapStringNestedEnum[k] != y.MapStringNestedEnum[k] {
+			return false
+		}
+	}
+	if x.GetOneofUint32() != y.GetOneofUint32() {
+		return false
+	}
+	if !x.GetOneofNestedMessage().Equal(y.GetOneofNestedMessage()) {
+		return false
+	}
+	if x.GetOneofString() != y.GetOneofString() {
+		return false
+	}
+	if string(x.GetOneofBytes()) != string(y.GetOneofBytes()) {
+		return false
+	}
+	if x.GetOneofBool() != y.GetOneofBool() {
+		return false
+	}
+	if x.GetOneofUint64() != y.GetOneofUint64() {
+		return false
+	}
+	if (math.IsNaN(float64(x.GetOneofFloat())) && !math.IsNaN(float64(y.GetOneofFloat())) || !math.IsNaN(float64(x.GetOneofFloat())) && math.IsNaN(float64(y.GetOneofFloat()))) || (!math.IsNaN(float64(x.GetOneofFloat())) && !math.IsNaN(float64(y.GetOneofFloat())) && x.GetOneofFloat() != y.GetOneofFloat()) {
+		return false
+	}
+	if (math.IsNaN(float64(x.GetOneofDouble())) && !math.IsNaN(float64(y.GetOneofDouble())) || !math.IsNaN(float64(x.GetOneofDouble())) && math.IsNaN(float64(y.GetOneofDouble()))) || (!math.IsNaN(float64(x.GetOneofDouble())) && !math.IsNaN(float64(y.GetOneofDouble())) && x.GetOneofDouble() != y.GetOneofDouble()) {
+		return false
+	}
+	if x.GetOneofEnum() != y.GetOneofEnum() {
+		return false
+	}
+	if p, q := x.GetOneofWrappersStringValue(), y.GetOneofWrappersStringValue(); (p == nil && q != nil) || (p != nil && (q == nil || p.Value != q.Value)) {
+		return false
+	}
+	if p, q := x.Any, y.Any; (p == nil && q != nil) || (p != nil && (q == nil || p.TypeUrl != q.TypeUrl || string(p.Value) != string(q.Value))) {
+		return false
+	}
+	if p, q := x.Duration, y.Duration; (p == nil && q != nil) || (p != nil && (q == nil || p.Seconds != q.Seconds || p.Nanos != q.Nanos)) {
+		return false
+	}
+	if p, q := x.Empty, y.Empty; (p == nil && q != nil) || (p != nil && q == nil) {
+		return false
+	}
+	if p, q := x.Timestamp, y.Timestamp; (p == nil && q != nil) || (p != nil && (q == nil || p.Seconds != q.Seconds || p.Nanos != q.Nanos)) {
+		return false
+	}
+	if p, q := x.WrappersBoolValue, y.WrappersBoolValue; (p == nil && q != nil) || (p != nil && (q == nil || p.Value != q.Value)) {
+		return false
+	}
+	if p, q := x.WrappersBytesValue, y.WrappersBytesValue; (p == nil && q != nil) || (p != nil && (q == nil || string(p.Value) != string(q.Value))) {
+		return false
+	}
+	if p, q := x.WrappersDoubleValue, y.WrappersDoubleValue; (p == nil && q != nil) || (p != nil && (q == nil || p.Value != q.Value)) {
+		return false
+	}
+	if p, q := x.WrappersFloatValue, y.WrappersFloatValue; (p == nil && q != nil) || (p != nil && (q == nil || p.Value != q.Value)) {
+		return false
+	}
+	if p, q := x.WrappersInt32Value, y.WrappersInt32Value; (p == nil && q != nil) || (p != nil && (q == nil || p.Value != q.Value)) {
+		return false
+	}
+	if p, q := x.WrappersInt64Value, y.WrappersInt64Value; (p == nil && q != nil) || (p != nil && (q == nil || p.Value != q.Value)) {
+		return false
+	}
+	if p, q := x.WrappersStringValue, y.WrappersStringValue; (p == nil && q != nil) || (p != nil && (q == nil || p.Value != q.Value)) {
+		return false
+	}
+	if p, q := x.WrappersUint32Value, y.WrappersUint32Value; (p == nil && q != nil) || (p != nil && (q == nil || p.Value != q.Value)) {
+		return false
+	}
+	if p, q := x.WrappersUint64Value, y.WrappersUint64Value; (p == nil && q != nil) || (p != nil && (q == nil || p.Value != q.Value)) {
+		return false
+	}
+	return true
 }
 
 func (x *ForeignMessage) Equal(y *ForeignMessage) bool {
-	if x == nil || y == nil {
-		return x == nil && y == nil
-	}
 	if x == y {
 		return true
 	}
-	return x.C == y.C &&
-		x.D == y.D
+	if x == nil || y == nil {
+		return x == nil && y == nil
+	}
+	if x.C != y.C {
+		return false
+	}
+	if x.D != y.D {
+		return false
+	}
+	return true
 }
