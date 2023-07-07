@@ -4,6 +4,8 @@
 package test3
 
 import (
+	other "github.com/melias122/protoc-gen-go-equal/internal/testprotos/other"
+	proto "google.golang.org/protobuf/proto"
 	math "math"
 )
 
@@ -595,6 +597,16 @@ func (x *TestAllTypes) Equal(y *TestAllTypes) bool {
 		return false
 	}
 	if p, q := x.WrappersUint64Value, y.WrappersUint64Value; (p == nil && q != nil) || (p != nil && (q == nil || p.Value != q.Value)) {
+		return false
+	}
+	if x.Enums3 != y.Enums3 {
+		return false
+	}
+	if equal, ok := interface{}(x.OtherMessage).(interface {
+		Equal(*other.OtherMessage) bool
+	}); !ok || !equal.Equal(y.OtherMessage) {
+		return false
+	} else if !proto.Equal(x.OtherMessage, y.OtherMessage) {
 		return false
 	}
 	return true

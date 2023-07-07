@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package goproto.proto.other;
+
+option go_package = "github.com/melias122/protoc-gen-go-equal/internal/testprotos/other";
+
+message OtherMessage {
+  int32 i = 1;
+}

@@ -151,18 +151,14 @@ func genEqualField(g *protogen.GeneratedFile, f *protogen.Field, fieldName strin
 			g.P(`}`)
 
 		default:
-			pkg := string(f.Message.Desc.ParentFile().Package())
-			isLocalMessage := isLocalPackage[pkg]
-
-			if f.Message != nil && f.Message.Desc != nil && f.Message.Desc.ParentFile() != nil && isLocalMessage {
+			isLocalMessage := f.Message != nil && f.Message.Desc != nil && f.Message.Desc.ParentFile() != nil && isLocalPackage[string(f.Message.Desc.ParentFile().Package())]
+			if isLocalMessage {
 				g.P(`if !`, x, `.Equal(`, y, `) {`)
 				g.P(`	return false`)
 				g.P(`}`)
 			} else {
-				g.P(`if equal, ok := interface{}(`, x, `).(interface { Equal(*`, g.QualifiedGoIdent(f.Message.GoIdent), `) bool }); ok {`)
-				g.P(`	if !equal.Equal(`, y, `) {`)
-				g.P(`		return false`)
-				g.P(`	}`)
+				g.P(`if equal, ok := interface{}(`, x, `).(interface { Equal(*`, g.QualifiedGoIdent(f.Message.GoIdent), `) bool }); !ok || !equal.Equal(`, y, `) {`)
+				g.P(`	return false`)
 				g.P(`} else if !`, protoPackage.Ident("Equal"), `(`, x, `, `, y, `) {`)
 				g.P(`	return false`)
 				g.P(`}`)

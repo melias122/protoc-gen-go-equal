@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/melias122/protoc-gen-go-equal/internal/testprotos/other"
 	test3pb "github.com/melias122/protoc-gen-go-equal/internal/testprotos/test3" // "google.golang.org/protobuf/internal/testprotos/test3"
 	testpb "github.com/melias122/protoc-gen-go-equal/internal/testprotos/test3"  // "google.golang.org/protobuf/internal/testprotos/test"
 	"google.golang.org/protobuf/encoding/prototext"
@@ -742,6 +743,32 @@ func TestEqual(t *testing.T) {
 			y: &test3pb.TestAllTypes{
 				WrappersUint64Value: wrapperspb.UInt64(7),
 			},
+		},
+
+		{
+			x: &test3pb.TestAllTypes{
+				OtherMessage: &other.OtherMessage{I: 1},
+			},
+			y: &test3pb.TestAllTypes{
+				OtherMessage: &other.OtherMessage{I: 2},
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				OtherMessage: &other.OtherMessage{I: 2},
+			},
+			y: &test3pb.TestAllTypes{
+				OtherMessage: &other.OtherMessage{I: 1},
+			},
+		},
+		{
+			x: &test3pb.TestAllTypes{
+				OtherMessage: &other.OtherMessage{I: 1},
+			},
+			y: &test3pb.TestAllTypes{
+				OtherMessage: &other.OtherMessage{I: 1},
+			},
+			eq: true,
 		},
 	}
 
