@@ -3,6 +3,7 @@ package main
 import (
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/types/pluginpb"
 )
 
 var isLocalPackage = make(map[string]bool)
@@ -17,6 +18,8 @@ func main() {
 			}
 			isLocalPackage[string(f.Desc.Package())] = true
 		}
+
+		gen.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
 
 		for _, f := range gen.Files {
 			if !f.Generate {
